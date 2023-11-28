@@ -1,0 +1,13 @@
+:root {
+    --primarycolor: #ff4cbb;
+    --lightcolor: #ffffff;
+    --darktcolor: #212529;
+  }
+  
+.myprimary-color {
+    color: var(--primarycolor);
+}
+  
+.myprimary-bg {
+    background-color: var(--primarycolor);
+}
