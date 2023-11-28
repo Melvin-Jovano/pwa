@@ -1,13 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
 :root {
-    --primarycolor: #ff4cbb;
+    --primarycolor: #25CC22;
     --lightcolor: #ffffff;
     --darktcolor: #212529;
   }
   
-.myprimary-color {
-    color: var(--primarycolor);
-}
-  
-.myprimary-bg {
+.bg-primary {
     background-color: var(--primarycolor);
+}
+
+.color-primary {
+    color: var(--primarycolor);
 }

@@ -1,0 +1,19 @@
+import { logout } from "../../common/api/auth";
+
+function ProfilePage() {
+  async function logoutSubmit() {
+    await logout(localStorage.getItem('refreshToken'));
+    localStorage.clear();
+    window.location.replace('/auth/login');
+  }
+
+  return (
+    <>
+      <button onClick={logoutSubmit} className="bg-primary text-white mb-6 w-full rounded-full py-2 mt-12">
+        Sign Out
+      </button>
+    </>
+  );
+}
+
+export default ProfilePage

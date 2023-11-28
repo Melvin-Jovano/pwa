@@ -1,49 +1,49 @@
 import { useState } from "react";
-import { login } from "../../common/api/auth";
+import { register } from "../../common/api/auth";
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
-  async function loginSubmit(e) {
+  async function registerSubmit(e) {
     e.preventDefault();
 
-    const loginData = await login(email, password);
-
-    localStorage.setItem('accessToken', loginData.data.accessToken);
-    localStorage.setItem('refreshToken', loginData.data.refreshToken);
-    localStorage.setItem('username', loginData.data.username);
-    localStorage.setItem('email', loginData.data.email);
-    localStorage.setItem('id', loginData.data.id);
-
-    window.location.replace('/')
+   await register(email, username);
+   window.location.replace(`/auth/verify?email=${email}`);
   }
 
   return (
       <div>
         <div>
           <center>
-            <h3 className="mt-24 text-xl">Sign In</h3>
-            <div className="text-gray-400 mt-3 text-sm">
-              Hi! Welcome back, you've missed
+            <h3 className="mt-24 text-xl">Create Acount</h3>
+            <div className="text-gray-400 mt-3 px-12 text-sm">
+              Fill your information below or register with your social account.
             </div>
           </center>
         </div>
 
         <div className="mt-12">
-          <form onSubmit={loginSubmit}>
+          <form onSubmit={registerSubmit}>
             <center>
               <div className="mb-6">
                   <label htmlFor="email" className="block mb-2 ml-3 text-sm text-left">Email</label>
                   <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" />
               </div>
               <div className="mb-4">
-                  <label htmlFor="password" className="block mb-2 ml-3 text-sm text-left">Password</label>
-                  <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" />
+                  <label htmlFor="username" className="block mb-2 ml-3 text-sm text-left">Username</label>
+                  <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" id="username" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" />
               </div>
 
-              <div className="text-right text-xs pr-6 underline color-primary">
-                Forgot Password?
+              <div className="text-left text-xs pl-4">
+                <div className="flex">
+                  <div className="mx-2">
+                    <input type="checkbox" name="" id="" />
+                  </div>
+                  <div className="flex-initial">
+                    I want to receive emails about the product, feature  updates, events, and marketing promotions.
+                  </div>
+                </div>
               </div>
 
               <button className="bg-primary text-white mb-6 w-full rounded-full py-2 mt-12">
@@ -70,7 +70,7 @@ function LoginPage() {
               </div>
 
               <div className="text-xs mt-6">
-                Don't have an account? <a className="underline color-primary" href="/auth/register">Sign Up</a>
+                Don't have an account? <a className="underline color-primary" href="/login">Sign In</a>
               </div>
             </center>
           </div>
@@ -79,4 +79,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage
+export default RegisterPage
