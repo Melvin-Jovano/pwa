@@ -38,13 +38,12 @@ axios.interceptors.response.use(async response => {
       localStorage.clear();
       window.location.replace('/auth/login');
     }
-    response.data = JSON.parse(response.data);
+
     return response;
 });
   
 axios.interceptors.request.use(
 (config) => {
-    console.log(123);
     config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
     return config;
 },
