@@ -55,11 +55,11 @@ function CreatePasswordPage() {
             <center>
               <div className="mb-6">
                   <label htmlFor="password" className="block mb-2 ml-3 text-sm text-left">Password</label>
-                  <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" id="password" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" />
+                  <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" id="password" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" placeholder="New password" />
               </div>
               <div className="mb-4">
                   <label htmlFor="repeat-password" className="block mb-2 ml-3 text-sm text-left">Repeat Password</label>
-                  <input value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} type="password" id="repeat-password" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" />
+                  <input value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} type="password" id="repeat-password" className="bg-gray-50 border border-gray-300 text-sm rounded-full block w-full p-2.5 pl-3 outline-none" placeholder="Repeat password" />
               </div>
 
               <button className="bg-primary text-white mb-6 w-full rounded-full py-2 mt-12">
