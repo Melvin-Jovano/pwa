@@ -38,7 +38,7 @@ axios.interceptors.response.use(async response => {
       localStorage.clear();
       window.location.replace('/auth/login');
     }
-  
+    response.data = JSON.parse(response.data);
     return response;
 });
   
