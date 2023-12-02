@@ -28,7 +28,8 @@ export async function register(email, username) {
 }
 
 export async function verify(password, repeatPassword, code) {
-    return (await axios.post(`${URL}/auth/verify/${code}`, {
+    return (await axios.post(`${URL}/auth/verify`, {
+        code,
         password, 
         repeatPassword
     })).data;
