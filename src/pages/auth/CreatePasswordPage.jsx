@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { verify } from "../../common/api/auth";
 import AppContext from "../../common/context/AppContext";
+import { successResponse } from "../../common/app/message";
 
 function CreatePasswordPage() {
-  const { setShowNavbar } = useContext(AppContext);
+  const { setShowNavbar, setShowLoading } = useContext(AppContext);
   const [repeatPassword, setRepeatPassword] = useState('');
   const [password, setPassword] = useState('');
   const queryParameters = new URLSearchParams(location.search);
@@ -17,9 +18,24 @@ function CreatePasswordPage() {
   }, []);
 
   async function createPassword(e) {
-    e.preventDefault();
-    await verify(password, repeatPassword, queryParameters.get('code'));
-    window.location.replace('/auth/login');
+    try {
+      e.preventDefault();
+
+      setShowLoading(true);
+      
+      const ver = await verify(password, repeatPassword, queryParameters.get('code'));
+      
+      if(ver !== successResponse) {
+        setShowLoading(false);
+        return;
+      }
+
+      window.location.replace('/auth/login');
+      
+      setShowLoading(false);
+    } catch (error) {
+      setShowLoading(false);
+    }
   }
 
   return (

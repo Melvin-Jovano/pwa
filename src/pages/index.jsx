@@ -1,5 +1,5 @@
 import CreatePasswordPage from "./auth/CreatePasswordPage";
-import HomePage from "./auth/HomePage";
+import HomePage from "./home/HomePage";
 import LoginPage from "./auth/LoginPage";
 import RegisterPage from "./auth/RegisterPage";
 import VerifyPage from "./auth/VerifyPage";
