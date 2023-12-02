@@ -24,8 +24,9 @@ function CreatePasswordPage() {
       setShowLoading(true);
       
       const ver = await verify(password, repeatPassword, queryParameters.get('code'));
-      
-      if(ver !== successResponse) {
+      console.log(ver);
+
+      if(ver.message !== successResponse) {
         setShowLoading(false);
         return;
       }
