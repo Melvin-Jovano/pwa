@@ -2,9 +2,14 @@ import { logout } from "../../common/api/auth";
 
 function ProfilePage() {
   async function logoutSubmit() {
-    await logout(localStorage.getItem('refreshToken'));
-    localStorage.clear();
-    window.location.replace('/auth/login');
+    try {
+      await logout(localStorage.getItem('refreshToken'));
+      localStorage.clear();
+      window.location.replace('/auth/login');
+    } catch (error) {
+      localStorage.clear();
+      window.location.replace('/auth/login');
+    }
   }
 
   return (
