@@ -40,7 +40,7 @@ function CreatePasswordPage() {
   }
 
   return (
-    <div>
+    <div className="p-3">
         <div>
           <center>
             <h3 className="mt-20 text-xl">New Password</h3>

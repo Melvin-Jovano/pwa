@@ -20,12 +20,12 @@ function LoginPage() {
         setShowLoading(false);
         return;
       }
-      
+
       localStorage.setItem('accessToken', loginData.data.accessToken);
       localStorage.setItem('refreshToken', loginData.data.refreshToken);
       localStorage.setItem('username', loginData.data.username);
       localStorage.setItem('email', loginData.data.email);
-      localStorage.setItem('id', loginData.data.id);
+      localStorage.setItem('id', loginData.data._id);
       
       window.location.replace('/');
 
@@ -36,7 +36,7 @@ function LoginPage() {
   }
   
   return (
-      <div>
+      <div className="p-3">
         <div>
           <center>
             <h3 className="mt-24 text-xl">Sign In</h3>

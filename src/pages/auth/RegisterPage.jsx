@@ -37,7 +37,7 @@ function RegisterPage() {
   }
 
   return (
-      <div>
+      <div className="p-3">
         <div>
           <center>
             <h3 className="mt-24 text-xl">Create Acount</h3>

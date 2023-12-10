@@ -13,11 +13,11 @@ function ProfilePage() {
   }
 
   return (
-    <>
+    <div className="p-3">
       <button onClick={logoutSubmit} className="bg-primary text-white mb-6 w-full rounded-full py-2 mt-12">
         Sign Out
       </button>
-    </>
+    </div>
   );
 }
 

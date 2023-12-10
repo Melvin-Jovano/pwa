@@ -5,7 +5,7 @@ function Content() {
     const routing = useRoutes(routes(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')));
 
     return (
-        <div className="p-3 h-100">
+        <div className="h-100">
             {routing}
         </div>
     );

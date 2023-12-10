@@ -13,9 +13,9 @@ function HomePage() {
   }, []);
 
   return (
-    <>
+    <div className="p-3">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias distinctio recusandae eum eveniet itaque dicta maiores laborum necessitatibus voluptates et. Minus a ab recusandae officiis veniam voluptas reprehenderit repellendus hic.
-    </>
+    </div>
   );
 }
 

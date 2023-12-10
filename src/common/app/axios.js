@@ -5,6 +5,7 @@ import { logout, refreshToken } from "../api/auth";
 let isRefresh = true;
 
 axios.interceptors.response.use(async response => {
+  try {
     const originalRequest = response.config;
     
     if (response.data.message === tokenExpiredResponse) {
@@ -38,8 +39,12 @@ axios.interceptors.response.use(async response => {
       localStorage.clear();
       window.location.replace('/auth/login');
     }
-
+    
     return response;
+  } catch (error) {
+    localStorage.clear();
+    window.location.replace('/auth/login');
+  }
 });
   
 axios.interceptors.request.use(
