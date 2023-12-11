@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { BrowserRouter } from "react-router-dom";
 import "./common/app/axios.js";
-import "./assets/css/index.css"
+import "./assets/css/index.css";
 import { Settings } from 'luxon';
+import "react-datepicker/dist/react-datepicker.css";
+import 'leaflet/dist/leaflet.css';
 
 Settings.defaultZone = "Asia/Bangkok";
 
