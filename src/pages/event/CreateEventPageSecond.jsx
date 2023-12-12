@@ -6,10 +6,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MultiSelect } from "react-multi-select-component";
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import LocationFinder from "../../component/LocationFinder";
+import { uploadToS3 } from "../../common/api/aws";
 
 function CreateEventPageSecond() {
-  const { setShowNavbar } = useContext(AppContext);
+  const { setShowNavbar, setShowLoading } = useContext(AppContext);
   const [image, setImage] = useState(null);
+  const coor = useRef(null);
   const address = useRef(null);
   const limit = useRef(null);
   const file = useRef(null);
@@ -31,14 +33,18 @@ function CreateEventPageSecond() {
   }, []);
 
   async function submit(e) {
-
-    // navigate('/event/create/second',{ image, startDate, title, desc, about });
-  }
-
-  function onImageChange(e) {
-    if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+    try {
+      e.preventDefault();
+  
+      setShowLoading(true);
+      
+      const img = await uploadToS3(location.state.image);
+      console.log(img);
+      setShowLoading(false);
+    } catch (error) {
+      setShowLoading(false);
     }
+    
   }
 
   return (
@@ -73,7 +79,7 @@ function CreateEventPageSecond() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
-              <LocationFinder />
+              <LocationFinder coor={coor} />
             </MapContainer>
           </div>
         </div>

@@ -28,12 +28,13 @@ function CreateEventPageFirst() {
     });
     e.preventDefault();
 
-    navigate('/event/create/second', { state: {image: img.current.value, startDate, title: title.current.value, desc: desc.current.value, about: about.current.value}, replace: true });
+    navigate('/event/create/second', { state: {image: img.current, startDate, title: title.current.value, desc: desc.current.value, about: about.current.value}, replace: true });
   }
 
   function onImageChange(e) {
     if (e.target.files && e.target.files[0]) {
       setImage(URL.createObjectURL(e.target.files[0]));
+      img.current = e.target.files[0];
     }
   }
 
@@ -50,7 +51,7 @@ function CreateEventPageFirst() {
         <div className="px-3 mb-6">
           <div className="mb-3">Thumbnail Photo</div>
           <div>
-            <input ref={img} onChange={onImageChange} required type="file" accept="image/*" />
+            <input onChange={onImageChange} required type="file" accept="image/*" />
             {
               image != null &&
               <img className="w-full h-44 object-cover mt-3" src={image}/>

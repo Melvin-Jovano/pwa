@@ -49,6 +49,11 @@ axios.interceptors.response.use(async response => {
   
 axios.interceptors.request.use(
 (config) => {
+    if(config.headers['Without-Token'] == 'true') {
+      delete config.headers['Without-Token'];
+      return config;
+    }
+    
     config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
     return config;
 },
