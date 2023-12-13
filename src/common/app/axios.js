@@ -1,5 +1,5 @@
 import axios from "axios";
-import { invalidTokenResponse, needReauthenticateResponse, tokenExpiredResponse } from "./message";
+import { invalidTokenResponse, needReauthenticateResponse, successResponse, tokenExpiredResponse } from "./message";
 import { logout, refreshToken } from "../api/auth";
 
 let isRefresh = true;
@@ -15,10 +15,11 @@ axios.interceptors.response.use(async response => {
         isRefresh = false;
         
         const refreshAccessToken = await refreshToken(localStorage.getItem('refreshToken'));
-        if(!refreshAccessToken.success) {
+        if(refreshAccessToken.message != successResponse) {
           await logout(localStorage.getItem('refreshToken'));
           localStorage.clear();
           window.location.replace('/auth/login');
+          return;
         }
         localStorage.setItem('accessToken', refreshAccessToken.data.accessToken);
         localStorage.setItem('refreshToken', refreshAccessToken.data.refreshToken);

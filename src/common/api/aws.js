@@ -9,12 +9,13 @@ export async function uploadToS3(file) {
       url: url.data,
       method: "put",
       data: file,
-      headers: { "Content-Type" : "application/octet-stream; charset=binary", },
-      maxContentLength: (100 * 1024 * 1024 * 1024),
-      timeout: (30 * 60 * 1000),
-   });
+      headers: { 
+        "Content-Type" : file.type, 
+        'Without-Token': 'true'
+      },
+    });
 
-    return url.split('?')[0];
+    return url.data.split('?')[0];
     
   } catch (error) {
     console.error(error);

@@ -7,25 +7,22 @@ import { MultiSelect } from "react-multi-select-component";
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import LocationFinder from "../../component/LocationFinder";
 import { uploadToS3 } from "../../common/api/aws";
+import { latLng } from "leaflet";
+import benefits from "../../common/app/benefits";
 
 function CreateEventPageSecond() {
-  const { setShowNavbar, setShowLoading } = useContext(AppContext);
+  const { setShowNavbar, setShowLoading, showLoading } = useContext(AppContext);
   const [image, setImage] = useState(null);
-  const coor = useRef(null);
+  const coor = useRef(latLng(3.5952, 98.6722));
   const address = useRef(null);
   const limit = useRef(null);
+  const marker = useRef(null);
   const file = useRef(null);
   const location = useLocation();
-  const options = [
-    { label: "Grapes 🍇", value: "grapes" },
-    { label: "Mango 🥭", value: "mango" },
-    { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-  ];
-  const [selected, setSelected] = useState([]);
+  const [selectedBenefits, setSelectedBenefits] = useState([]);
 
   useEffect(() => {
     setShowNavbar(true);
-    console.log(location.state);
 
     return function cleanup() {
       setShowNavbar(false);
@@ -38,13 +35,24 @@ function CreateEventPageSecond() {
   
       setShowLoading(true);
       
-      const img = await uploadToS3(location.state.image);
-      console.log(img);
+      // const img = await uploadToS3(location.state.image);
+      // const license = await uploadToS3(file.current);
+
+      console.log(coor.current, address.current.value, limit.current.value, file.current, selectedBenefits);
+
+      // console.log(img, license);
+
       setShowLoading(false);
     } catch (error) {
       setShowLoading(false);
     }
     
+  }
+
+  function onLicenseChange(e) {
+    if (e.target.files && e.target.files[0]) {
+      file.current = e.target.files[0];
+    }
   }
 
   return (
@@ -73,25 +81,24 @@ function CreateEventPageSecond() {
         <div className="px-3 mb-6">
           <div className="mb-3">Maps</div>
           <div className="h-44 w-full relative">
-            <MapContainer center={[0.7893, 113.9213]} zoom={7} >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
+                <MapContainer center={[3.5952, 98.6722]} zoom={10} className="" >
+                  <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
 
-              <LocationFinder coor={coor} />
-            </MapContainer>
+                  <LocationFinder coor={coor} marker={marker} />
+                </MapContainer>
           </div>
         </div>
 
         <div className="px-3 mb-6">
           <div className="mb-3">Benefit</div>
-          <div>
+          <div style={{zIndex: "0!important"}}>
             <MultiSelect
-              options={options}
-              value={selected}
-              onChange={setSelected}
-              labelledBy="Select"
+              options={benefits}
+              value={selectedBenefits}
+              onChange={setSelectedBenefits}
             />
           </div>
         </div>
@@ -99,7 +106,7 @@ function CreateEventPageSecond() {
         <div className="px-3 mb-6">
           <div className="mb-3">License</div>
           <div>
-            <input ref={file} required type="file" accept="application/pdf" />
+            <input onChange={onLicenseChange} required type="file" accept="application/pdf" />
           </div>
         </div>
 

@@ -1,24 +1,22 @@
+import { latLng } from 'leaflet';
+import { useEffect } from 'react';
 import { useMapEvents } from 'react-leaflet';
 
 function LocationFinder(props) {
-    const { coor } = props;
-    let markerExist = false;
-    let marker;
+    const { coor, marker } = props;
 
     const map = useMapEvents({
         click(e) {
             coor.current = e.latlng;
-            
-            if(markerExist) {
-                marker.setLatLng(e.latlng);
-                return;
-            }
-            
-            markerExist = true;
-            marker = L.marker(e.latlng);
-            map.addLayer(marker);
+            marker.current.setLatLng(e.latlng);
         },
     });
+    
+    useEffect(() => {
+        marker.current = L.marker(latLng(3.5952, 98.6722));
+        map.addLayer(marker.current);
+    }, []);
+
     return null;
 };
 

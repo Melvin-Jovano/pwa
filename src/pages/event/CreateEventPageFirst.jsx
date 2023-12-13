@@ -23,11 +23,7 @@ function CreateEventPageFirst() {
   }, []);
 
   async function submit(e) {
-    console.log({
-      image: img.current.value, startDate, title: title.current.value, desc: desc.current.value, about: about.current.value
-    });
     e.preventDefault();
-
     navigate('/event/create/second', { state: {image: img.current, startDate, title: title.current.value, desc: desc.current.value, about: about.current.value}, replace: true });
   }
 
