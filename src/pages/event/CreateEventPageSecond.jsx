@@ -9,6 +9,7 @@ import LocationFinder from "../../component/LocationFinder";
 import { uploadToS3 } from "../../common/api/aws";
 import { latLng } from "leaflet";
 import benefits from "../../common/app/benefits";
+import { createEvent } from "../../common/api/event";
 
 function CreateEventPageSecond() {
   const { setShowNavbar, setShowLoading, showLoading } = useContext(AppContext);
@@ -34,15 +35,25 @@ function CreateEventPageSecond() {
       e.preventDefault();
   
       setShowLoading(true);
-      
-      // const img = await uploadToS3(location.state.image);
-      // const license = await uploadToS3(file.current);
 
-      console.log(coor.current, address.current.value, limit.current.value, file.current, selectedBenefits);
+      const img = await uploadToS3(location.state.image);
+      const license = await uploadToS3(file.current);
 
-      // console.log(img, license);
+      await createEvent({
+        about: location.state.about,
+        address: address.current.value,
+        benefits: selectedBenefits.map(b => JSON.parse(b.value)),
+        coordinates: [coor.current.lng, coor.current.lat],
+        description: location.state.desc,
+        license: license,
+        limit: Number(limit.current.value),
+        thumbnail: img,
+        time: location.state.startDate.toISOString(),
+        title: location.state.title,
+      });
 
       setShowLoading(false);
+      window.location.replace('/profile');
     } catch (error) {
       setShowLoading(false);
     }

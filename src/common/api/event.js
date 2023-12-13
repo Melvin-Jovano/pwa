@@ -8,3 +8,19 @@ export async function eventDetail(eventId) {
         }
     })).data;
 }
+
+export async function createEvent({userId = localStorage.getItem('id'), title, description, about, coordinates, address, time, benefits, limit, license, thumbnail}) {
+    return (await axios.post(`${URL}/event/create`, {
+        userId,
+        title,
+        description,
+        about,
+        coordinates,
+        address, 
+        time, 
+        benefits, 
+        limit, 
+        license, 
+        thumbnail
+    })).data;
+}

@@ -7,6 +7,7 @@ import "./assets/css/index.css";
 import { Settings } from 'luxon';
 import "react-datepicker/dist/react-datepicker.css";
 import 'leaflet/dist/leaflet.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 Settings.defaultZone = "Asia/Bangkok";
 
