@@ -88,7 +88,7 @@ function ProfilePage() {
           <div className="flex-grow"></div>
         </div>
 
-        <TabProfile content={content} />
+        <TabProfile content={content} userId={user._id} />
       </center>
     </div>
   );

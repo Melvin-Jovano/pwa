@@ -27,12 +27,14 @@ export async function createEvent({userId = localStorage.getItem('id'), title, d
 
 export async function exploreEvents({exceptBy = undefined, userId = undefined, title = undefined, location = undefined, page = 1, registeredUserId = undefined}) {
     return (await axios.get(`${URL}/event/explore`, {
-        userId,
-        title,
-        location,
-        exceptBy,
-        page,
-        registeredUserId,
+        params: {
+            userId,
+            title,
+            location,
+            exceptBy,
+            page,
+            registeredUserId,
+        }
     })).data;
 }
 
