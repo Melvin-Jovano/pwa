@@ -22,11 +22,15 @@ function ProfilePage() {
   };
   
   async function getUser() {
-    setShowLoading(true);
-    const profile = await getProfile(localStorage.getItem('id'));
-    setUser(profile.data);
-    setContent(profile.data.about);
-    setShowLoading(false);
+    try {
+      setShowLoading(true);
+      const profile = await getProfile(localStorage.getItem('id'));
+      setUser(profile.data);
+      setContent(profile.data.about);
+      setShowLoading(false);
+    } catch (error) {
+      setShowLoading(false);
+    }
   }
 
   useEffect(() => {

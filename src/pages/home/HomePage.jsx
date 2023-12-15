@@ -3,33 +3,51 @@ import AppContext from "../../common/context/AppContext";
 import EventCard from "../../component/EventCard";
 import HomeImg from "../../assets/img/home.png";
 import { exploreEvents } from "../../common/api/event";
+import Skeleton from "react-loading-skeleton";
+import Loader from "../../component/Loader";
 
 function HomePage() {
-  const { setShowBottomNavbar, setShowLoading } = useContext(AppContext);
+  const { setShowBottomNavbar } = useContext(AppContext);
   const [location, setLocation] = useState('My Location');
   const [exploreEvent, setExploreEvent] = useState([]);
+  const [exploreLoading, setExploreLoading] = useState(true);
+  const [nearbyEvent, setNearbyEvent] = useState([]);
+  const [nearbyLoading, setNearbyLoading] = useState(true);
   const keyword = useRef();
 
   async function getEvents() {
-    setShowLoading(true);
+    setExploreLoading(true);
     const events = await exploreEvents({
       title: '',
       exceptBy: localStorage.getItem('id')
     });
     setExploreEvent(events.data);
-    setShowLoading(false);
+    setExploreLoading(false);
+  }
+
+  async function getNearbyEvent() {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      setNearbyLoading(true);
+      const events = await exploreEvents({
+        location: `${position.coords.longitude},${position.coords.latitude},10000`,
+        exceptBy: localStorage.getItem('id')
+      });
+      setNearbyEvent(events.data);
+      setNearbyLoading(false);
+    });
   }
 
   useEffect(() => {
     setShowBottomNavbar(true);
     getEvents();
+    getNearbyEvent();
     return function cleanup() {
       setShowBottomNavbar(false);
     };
   }, []);
 
   return (
-    <div className="p-3 px-6">
+    <div className="p-3 px-6 mb-14">
       <div className="flex mt-3">
         <div className="text-slate-400 flex-grow text-sm">Location</div>
         <div><i className="fas fa-bell"></i></div>
@@ -63,7 +81,9 @@ function HomePage() {
         <div className="flex w-full overflow-auto py-4">
 
           {
-            exploreEvent.map((e, i) => <EventCard key={i} data={e} />)
+            exploreLoading 
+              ? <div className="w-full"><Loader hideLabel={true} /></div>
+              : exploreEvent.map((e, i) => <EventCard key={i} data={e} />)
           }
 
         </div>
@@ -85,6 +105,27 @@ function HomePage() {
             <img src={HomeImg} className="w-full h-full object-cover rounded-r-lg shadow" alt="" />
           </div>
           
+        </div>
+        
+        <div className="my-4">
+          {
+            nearbyLoading
+              ? <Loader />
+              : nearbyEvent.length > 0 
+                ? <>
+                  <div className="flex items-center">
+                    <div className="flex-grow">Nearby You</div>
+                    <div className="text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></div>
+                  </div>
+
+                  <div className="flex w-full overflow-auto py-4">
+                    {
+                      nearbyEvent.map((e, i) => <EventCard key={i} data={e} />)
+                    }
+                  </div>
+                </>
+                : <center className="my-4">No Event Found</center>
+          }
         </div>
       </div>
     </div>
