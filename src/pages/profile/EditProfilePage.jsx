@@ -39,7 +39,7 @@ function EditProfilePage() {
         }
       );
       
-      window.location.replace('/profile');
+      window.location.href = '/profile';
 
       setShowLoading(false);
     } catch (error) {

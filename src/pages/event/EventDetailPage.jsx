@@ -153,7 +153,7 @@ function EventDetailPage() {
                   {
                     event.registeredUser?.includes(userId) &&
                       <button className="bg-slate-500 text-white rounded-lg p-4" disabled>
-                        Already booked
+                        Reserved
                       </button>
                   }
                 </div>

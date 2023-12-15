@@ -24,3 +24,13 @@ export async function createEvent({userId = localStorage.getItem('id'), title, d
         thumbnail
     })).data;
 }
+
+export async function exploreEvents({userId = undefined, title = undefined, location = undefined, page = 1, registeredUserId = undefined}) {
+    return (await axios.get(`${URL}/event/explore`, {
+        userId,
+        title,
+        location,
+        page,
+        registeredUserId,
+    })).data;
+}

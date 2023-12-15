@@ -27,7 +27,7 @@ function RegisterPage() {
         return;
       }
 
-      window.location.replace(`/auth/verify?email=${email}`);
+      window.location.href = `/auth/verify?email=${email}`;
       
       setShowLoading(false);
     } catch (error) {
