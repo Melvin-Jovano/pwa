@@ -1,10 +1,8 @@
 import AppContext from "../../common/context/AppContext";
 import { useContext, useEffect, useRef, useState } from "react";
-import { DateTime } from "luxon";
-import DatePicker from "react-datepicker";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { MultiSelect } from "react-multi-select-component";
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import LocationFinder from "../../component/LocationFinder";
 import { uploadToS3 } from "../../common/api/aws";
 import { latLng } from "leaflet";
@@ -12,8 +10,7 @@ import benefits from "../../common/app/benefits";
 import { createEvent } from "../../common/api/event";
 
 function CreateEventPageSecond() {
-  const { setShowNavbar, setShowLoading, showLoading } = useContext(AppContext);
-  const [image, setImage] = useState(null);
+  const { setShowNavbar, setShowLoading } = useContext(AppContext);
   const coor = useRef(latLng(3.5952, 98.6722));
   const address = useRef(null);
   const limit = useRef(null);

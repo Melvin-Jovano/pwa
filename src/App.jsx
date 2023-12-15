@@ -7,6 +7,7 @@ import LoaderOverlay from "./component/LoaderOverlay";
 
 function App() {
   const [showNavbar, setShowNavbar] = useState(false);
+  const [navbarButton, setNavbarButton] = useState(<></>);
   const [showLoading, setShowLoading] = useState(false);
   const [showBottomNavbar, setShowBottomNavbar] = useState(false);
 
@@ -14,6 +15,8 @@ function App() {
       <>
         <AppContext.Provider
           value={{
+            navbarButton, 
+            setNavbarButton,
             showLoading, 
             setShowLoading,
             showNavbar,
