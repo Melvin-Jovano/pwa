@@ -13,19 +13,16 @@ function HomePage() {
   async function getEvents() {
     setShowLoading(true);
     const events = await exploreEvents({
-      title: ''
+      title: '',
+      exceptBy: localStorage.getItem('id')
     });
-    
     setExploreEvent(events.data);
-
     setShowLoading(false);
   }
 
   useEffect(() => {
     setShowBottomNavbar(true);
-    
     getEvents();
-
     return function cleanup() {
       setShowBottomNavbar(false);
     };
@@ -72,7 +69,7 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="my-6">
+      <div className="my-2">
         <div className="flex">
 
           <div className="flex-grow bg-green-200 rounded-l-lg shadow">

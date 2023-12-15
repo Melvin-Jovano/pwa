@@ -1,58 +1,28 @@
 import { useContext, useEffect, useState } from "react";
-import { logout } from "../../common/api/auth";
 import AppContext from "../../common/context/AppContext";
-import DropdownMenu from "../../component/DropDown";
 import { getProfile } from "../../common/api/profile";
-import TabProfile from "../../component/TabProfile";
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-function ProfilePage() {
-  const { setShowLoading, setShowNavbar, setNavbarButton } = useContext(AppContext);
-  const [content, setContent] = useState('');
+function ProfileDetailPage() {
+  const {id} = useParams();
+  const { setShowLoading, setShowNavbar } = useContext(AppContext);
   const [user, setUser] = useState({});
-  const options = ['Edit profile', 'Logout'];
-  const navigate = useNavigate();
-
-  const handleSelect = async (option) => {
-    if(option == 'Logout') {
-      logoutSubmit();
-    } else if(option == 'Edit profile') {
-      navigate('/profile/edit', { state: {user}, replace: true });
-    }
-  };
   
   async function getUser() {
     setShowLoading(true);
-    const profile = await getProfile(localStorage.getItem('id'));
+    const profile = await getProfile(id);
     setUser(profile.data);
-    setContent(profile.data.about);
     setShowLoading(false);
   }
 
   useEffect(() => {
     getUser();
     setShowNavbar(true);
-    setNavbarButton(<DropdownMenu options={options} onSelect={handleSelect} />);
 
     return function cleanup() {
-      setNavbarButton(<></>);
       setShowNavbar(false);
     }
   }, []);
-
-  async function logoutSubmit() {
-    try {
-      setShowLoading(true);
-      await logout(localStorage.getItem('refreshToken'));
-      setShowLoading(false);
-      localStorage.clear();
-      window.location.replace('/auth/login');
-    } catch (error) {
-      setShowLoading(false);
-      localStorage.clear();
-      window.location.replace('/auth/login');
-    }
-  }
 
   return (
     <div className="p-3">
@@ -87,11 +57,17 @@ function ProfilePage() {
           </div>
           <div className="flex-grow"></div>
         </div>
+        
+        <center className="mt-8 text-sm">
+          <button onClick={() => handleSelect(1)}>ABOUT ME</button>
+          <div className="text-sm mt-4 text-slate-400 px-2">
+            {user.about}
+          </div>
+        </center>
 
-        <TabProfile content={content} userId={user._id} />
       </center>
     </div>
   );
 }
 
-export default ProfilePage
+export default ProfileDetailPage

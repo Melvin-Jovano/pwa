@@ -1,19 +1,17 @@
 import AppContext from "../../common/context/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from 'react-router';
-import { eventDetail } from "../../common/api/event";
+import { eventDetail, joinEvent } from "../../common/api/event";
 import { DateTime } from "luxon";
 import Skeleton from 'react-loading-skeleton';
 
 function EventDetailPage() {
-  const { id } = useParams();
+  const {id} = useParams();
   const { setShowLoading } = useContext(AppContext);
   const [isFetching, setIsFetching] = useState(true)
   const [userId, setUserId] = useState(null);
   const [event, setEvent] = useState({});
-
   const [user, setUser] = useState({});
-
   const [otherEvent, setOtherEvent] = useState([]);
   
   async function getEvent() {
@@ -25,6 +23,23 @@ function EventDetailPage() {
     setUser(event.data.user);
     setIsFetching(false);
     setShowLoading(false);
+  }
+
+  async function join() {
+    if(localStorage.getItem('id') == null) {
+      window.location.href = '/auth/login';
+    }
+
+    const conf = confirm('Join this event?');
+
+    if(conf) {
+      setShowLoading(true);
+      await joinEvent({
+        eventId: event._id,
+        userId: localStorage.getItem('id')
+      });
+      await getEvent();
+    }
   }
 
   useEffect(() => {
@@ -39,7 +54,7 @@ function EventDetailPage() {
 
         {
           isFetching 
-            ? <center><Skeleton count={10}  className="mt-3" style={{width: "95%"}}/> </center>
+            ? <center><Skeleton count={4}  className="mt-3" style={{width: "95%"}}/> </center>
             : <>
                 <div className="bg-white sticky px-7 py-7" style={{borderRadius: "50px", marginTop: "-45px"}}>
                   <div className="absolute" style={{top: "-20px", right: "35px"}}>
@@ -108,7 +123,7 @@ function EventDetailPage() {
 
                   <div className="mt-6">
                     <div className="font-semibold mb-2">About host</div>
-                    <div className="flex items-center">
+                    <a className="flex items-center" href={`/profile/detail/${user._id}`}>
                       <div>
                         <img src={user?.img} alt="" className="rounded-full w-14 h-14 object-cover" />
                       </div>
@@ -116,7 +131,7 @@ function EventDetailPage() {
                       <div>
                         <button className="rounded-full bg-green-400 w-10 h-10"><i className="fas fa-plus text-white"></i></button>
                       </div>
-                    </div>
+                    </a>
 
                     <p className="mt-3 text-sm">
                       {user?.about}
@@ -141,22 +156,25 @@ function EventDetailPage() {
                   <div>Booked</div>
                   <div>{event.registeredUser?.length}/{event?.limit}</div>
                 </div>
+                
+                {
+                  event.userId != userId &&
+                    <div className="w-2/3 text-right">
+                      {
+                        !event.registeredUser?.includes(userId) &&
+                          <button onClick={join} className="bg-green-500 text-white rounded-lg p-4">
+                            Register now
+                          </button>
+                      }
 
-                <div className="w-2/3 text-right">
-                  {
-                    !event.registeredUser?.includes(userId) &&
-                      <button className="bg-green-500 text-white rounded-lg p-4">
-                        Register now
-                      </button>
-                  }
-
-                  {
-                    event.registeredUser?.includes(userId) &&
-                      <button className="bg-slate-500 text-white rounded-lg p-4" disabled>
-                        Reserved
-                      </button>
-                  }
-                </div>
+                      {
+                        event.registeredUser?.includes(userId) &&
+                          <button className="bg-slate-500 text-white rounded-lg p-4" disabled>
+                            Reserved
+                          </button>
+                      }
+                    </div>
+                }
               </div>
             </>
         }

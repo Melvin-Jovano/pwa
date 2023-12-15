@@ -7,8 +7,9 @@ import ProfilePage from "./profile/ProfilePage";
 import CreateEventPageFirst from "./event/CreateEventPageFirst";
 import CreateEventPageSecond from "./event/CreateEventPageSecond";
 import EditProfilePage from "./profile/EditProfilePage";
-
+import ProfileDetailPage from "./profile/ProfileDetailPage";
 export {
+    ProfileDetailPage,
     EditProfilePage,
     CreateEventPageFirst,
     CreateEventPageSecond,
