@@ -7,80 +7,7 @@ import { exploreEvents } from "../../common/api/event";
 function HomePage() {
   const { setShowBottomNavbar, setShowLoading } = useContext(AppContext);
   const [location, setLocation] = useState('My Location');
-  const [exploreEvent, setExploreEvent] = useState([
-    {
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                98.6722,
-                3.5952
-            ]
-        },
-        "_id": "657a3d03f90c92111efe8d94",
-        "registeredUser": [],
-        "userId": "656b1f388994aba83c0aaa9e",
-        "title": "1",
-        "description": "1",
-        "about": "1",
-        "address": "1",
-        "time": "2023-12-13T23:22:20.085Z",
-        "benefits": [
-            {
-                "title": "Free snack dan minuman",
-                "icon": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/snack-fast-food.png",
-                "_id": "657a3d03f90c92111efe8d95"
-            },
-            {
-                "title": "Sertifikat ",
-                "icon": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/certificate.png",
-                "_id": "657a3d03f90c92111efe8d96"
-            }
-        ],
-        "limit": 1,
-        "license": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/4794dcd6-8bdb-4585-b147-fd4331aba1fc",
-        "thumbnail": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/b3174d98-251b-4ee4-9d72-9d59a25b98d2",
-        "createdAt": "2023-12-13T23:23:47.045Z",
-        "updatedAt": "2023-12-13T23:23:47.045Z",
-        "__v": 0
-    },
-    {
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                98.6722,
-                3.5952
-            ]
-        },
-        "_id": "656b6a80c921298353c82a9a",
-        "registeredUser": [
-            "656b1f388994aba83c0aaa9e"
-        ],
-        "userId": "656b1f388994aba83c0aaa9e",
-        "title": "Basmi Titan Liar",
-        "description": "Basmi titan mingguan dekat Wall Maria dipimpin oleh Kapten Levi.",
-        "about": "Guna mengurangi jumlah korban yang terus berjatuhan dan utk merebut kembali dinding Maria, kami mengundang anda utk menghadiri acara ini. Lessgo Eldia RAAAAAHH...",
-        "address": "Shiganshina, Wall Maria",
-        "time": "2023-12-02T16:29:30.000Z",
-        "benefits": [
-            {
-                "title": "Free 3D Manuver Gear",
-                "icon": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/gift.png",
-                "_id": "656b6a80c921298353c82a9b"
-            },
-            {
-                "title": "Asuransi BPJS Kesehatan",
-                "icon": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/snack-fast-food.png",
-                "_id": "656b6a80c921298353c82a9c"
-            }
-        ],
-        "limit": 10,
-        "license": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/85e2febb-2f55-4471-b4e2-3e2d1ccccaac",
-        "thumbnail": "https://cleanv-bucket.s3.ap-southeast-1.amazonaws.com/850060a2-c5c2-4072-834c-b419c57c617c",
-        "createdAt": "2023-12-02T17:33:52.104Z",
-        "updatedAt": "2023-12-02T20:35:07.083Z",
-        "__v": 0
-    }
-]);
+  const [exploreEvent, setExploreEvent] = useState([]);
   const keyword = useRef();
 
   async function getEvents() {
@@ -97,7 +24,7 @@ function HomePage() {
   useEffect(() => {
     setShowBottomNavbar(true);
     
-    // getEvents();
+    getEvents();
 
     return function cleanup() {
       setShowBottomNavbar(false);

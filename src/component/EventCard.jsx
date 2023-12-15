@@ -1,8 +1,4 @@
-import { useRoutes } from "react-router-dom";
-import routes from "../route/route";
-
 function EventCard(props) {
-
     const { data } = props;
 
     return (
