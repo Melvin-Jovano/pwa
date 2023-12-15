@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Skeleton from 'react-loading-skeleton';
 import { exploreEvents } from "../common/api/event";
 import { DateTime } from "luxon";

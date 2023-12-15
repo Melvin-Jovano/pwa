@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { HomePage, LoginPage, RegisterPage, ProfilePage, VerifyPage, CreatePasswordPage, CreateEventPageFirst, CreateEventPageSecond, EditProfilePage, ProfileDetailPage } from "../pages";
+import { HomePage, LoginPage, RegisterPage, ProfilePage, VerifyPage, CreatePasswordPage, CreateEventPageFirst, CreateEventPageSecond, EditProfilePage, ProfileDetailPage, EventList } from "../pages";
 import EventDetailPage from "../pages/event/EventDetailPage";
 
 const routes = (isLoggedIn) => [
@@ -38,6 +38,10 @@ const routes = (isLoggedIn) => [
     {
         path: '/event/:id',
         element: <EventDetailPage />
+    },
+    {
+        path: '/event/list',
+        element: isLoggedIn ? <EventList /> : <Navigate to='/auth/login' />
     },
     {
         path: '/event/create/first',

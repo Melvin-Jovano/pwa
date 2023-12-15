@@ -5,15 +5,17 @@ import HomeImg from "../../assets/img/home.png";
 import { exploreEvents } from "../../common/api/event";
 import Skeleton from "react-loading-skeleton";
 import Loader from "../../component/Loader";
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
   const { setShowBottomNavbar } = useContext(AppContext);
-  const [location, setLocation] = useState('My Location');
   const [exploreEvent, setExploreEvent] = useState([]);
   const [exploreLoading, setExploreLoading] = useState(true);
   const [nearbyEvent, setNearbyEvent] = useState([]);
   const [nearbyLoading, setNearbyLoading] = useState(true);
   const keyword = useRef();
+  const coor = useRef();
+  const navigate = useNavigate();
 
   async function getEvents() {
     setExploreLoading(true);
@@ -28,8 +30,9 @@ function HomePage() {
   async function getNearbyEvent() {
     navigator.geolocation.getCurrentPosition(async (position) => {
       setNearbyLoading(true);
+      coor.current = `${position.coords.longitude},${position.coords.latitude},10000`;
       const events = await exploreEvents({
-        location: `${position.coords.longitude},${position.coords.latitude},10000`,
+        location: coor.current,
         exceptBy: localStorage.getItem('id')
       });
       setNearbyEvent(events.data);
@@ -54,7 +57,7 @@ function HomePage() {
       </div>
 
       <div className="font-semibold my-3">
-        <i className="fas fa-location-dot"></i>&emsp;{location}
+        <i className="fas fa-location-dot"></i>&emsp;My Location
       </div>
 
       <div>
@@ -75,7 +78,7 @@ function HomePage() {
       <div className="my-4">
         <div className="flex items-center">
           <div className="flex-grow">Explore Events</div>
-          <div className="text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></div>
+          <button onClick={() => navigate('/event/list', {state: {title: '', exceptBy: localStorage.getItem('id')}})} className="block text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></button>
         </div>
 
         <div className="flex w-full overflow-auto py-4">
@@ -115,7 +118,7 @@ function HomePage() {
                 ? <>
                   <div className="flex items-center">
                     <div className="flex-grow">Nearby You</div>
-                    <div className="text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></div>
+                    <button onClick={() => navigate('/event/list', {state: {location: coor.current, exceptBy: localStorage.getItem('id')}})} className="block text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></button>
                   </div>
 
                   <div className="flex w-full overflow-auto py-4">
