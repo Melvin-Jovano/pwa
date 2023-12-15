@@ -7,7 +7,7 @@ function LoaderOverlay() {
     return (
         <>
             { showLoading &&
-                <div className="fixed h-screen grid h-screen place-items-center w-screen" style={{backgroundColor: "rgba(1, 1, 1, .65)"}}>
+                <div className="fixed h-screen grid h-screen place-items-center w-screen" style={{backgroundColor: "rgba(1, 1, 1, .65)", zIndex: 99999999}}>
                     <div>
                         <center>
                             <div role="status" className="mb-4">
