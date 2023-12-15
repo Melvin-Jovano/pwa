@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 function EventCard(props) {
     const { data } = props;
 
@@ -14,8 +16,8 @@ function EventCard(props) {
 
               <div className="absolute top-3 left-3">
                 <div className="bg-slate-200 bg-slate-300/75 text-center px-3 py-2 rounded-lg">
-                  <div>25</div>
-                  <div className="text-xs">Dec</div>
+                  <div>{DateTime.fromISO(data.time, {zone: 'utc'}).toFormat('dd')}</div>
+                  <div className="text-xs">{DateTime.fromISO(data.time, {zone: 'utc'}).monthShort}</div>
                 </div>
               </div>
             </div>

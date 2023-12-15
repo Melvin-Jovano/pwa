@@ -25,12 +25,20 @@ export async function createEvent({userId = localStorage.getItem('id'), title, d
     })).data;
 }
 
-export async function exploreEvents({userId = undefined, title = undefined, location = undefined, page = 1, registeredUserId = undefined}) {
+export async function exploreEvents({exceptBy = undefined, userId = undefined, title = undefined, location = undefined, page = 1, registeredUserId = undefined}) {
     return (await axios.get(`${URL}/event/explore`, {
         userId,
         title,
         location,
+        exceptBy,
         page,
         registeredUserId,
+    })).data;
+}
+
+export async function joinEvent({eventId = undefined, userId = undefined}) {
+    return (await axios.put(`${URL}/event/join`, {
+        userId,
+        eventId,
     })).data;
 }
