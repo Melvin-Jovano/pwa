@@ -1,7 +1,7 @@
 import AppContext from "../../common/context/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from 'react-router';
-import { eventDetail, joinEvent } from "../../common/api/event";
+import { eventDetail, joinEvent, saveEvent } from "../../common/api/event";
 import { DateTime } from "luxon";
 import Skeleton from 'react-loading-skeleton';
 
@@ -42,6 +42,24 @@ function EventDetailPage() {
     }
   }
 
+  async function save() {
+    if(!event.savedBy?.includes(userId)) {
+      setShowLoading(true);
+      await saveEvent({
+        userId,
+        eventId: event._id
+      });
+    } else {
+      setShowLoading(true);
+      await saveEvent({
+        userId,
+        unsave: true,
+        eventId: event._id
+      });
+    }
+    getEvent();
+  }
+
   useEffect(() => {
     setUserId(localStorage.getItem('id'));
     getEvent();
@@ -58,8 +76,12 @@ function EventDetailPage() {
             : <>
                 <div className="bg-white sticky px-7 py-7" style={{borderRadius: "50px", marginTop: "-45px"}}>
                   <div className="absolute" style={{top: "-20px", right: "35px"}}>
-                    <button className="shadow-lg bg-green-500 w-14 h-14 rounded-full">
-                      <i className="fa-solid fa-bookmark text-white"></i>
+                    <button onClick={save} className="shadow-lg bg-green-500 w-14 h-14 rounded-full">
+                      {
+                        event.savedBy?.includes(userId) 
+                          ? <i className="fas fa-bookmark text-white"></i>
+                          : <i className="fa-regular fa-bookmark text-white"></i>
+                      }
                     </button>
                   </div>
 

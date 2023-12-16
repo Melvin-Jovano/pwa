@@ -3,7 +3,6 @@ import AppContext from "../../common/context/AppContext";
 import EventCard from "../../component/EventCard";
 import HomeImg from "../../assets/img/home.png";
 import { exploreEvents } from "../../common/api/event";
-import Skeleton from "react-loading-skeleton";
 import Loader from "../../component/Loader";
 import { useNavigate } from 'react-router-dom';
 
@@ -40,6 +39,11 @@ function HomePage() {
     });
   }
 
+  function search(e) {
+    e.preventDefault();
+    navigate('/event/list', {state: {exceptBy: localStorage.getItem('id'), title: keyword.current.value}});
+  }
+
   useEffect(() => {
     setShowBottomNavbar(true);
     getEvents();
@@ -61,7 +65,7 @@ function HomePage() {
       </div>
 
       <div>
-        <form className="flex items-center">   
+        <form className="flex items-center" onSubmit={search}>   
           <label htmlFor="simple-search" className="sr-only">Search</label>
           <div className="relative w-full">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

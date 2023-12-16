@@ -25,7 +25,7 @@ function TabProfile(props) {
                     <img className="w-full h-20 object-cover rounded-lg" src={e.thumbnail} alt="" />
                 </div>
                 <div className="w-3/4 px-4">
-                    <div className="text-blue text-xs">{DateTime.fromISO(e.time, {zone: 'utc'}).toFormat("dd LLL - h:mm a")}</div>
+                    <div className="text-blue-400 text-xs">{DateTime.fromISO(e.time, {zone: 'utc'}).toFormat("dd LLL - h:mm a")}</div>
                     <div className="text-lg mt-1 text-black">{e.title}</div>
                 </div>
             </a>));
@@ -39,7 +39,7 @@ function TabProfile(props) {
                     <img className="w-full h-20 object-cover rounded-lg" src={e.thumbnail} alt="" />
                 </div>
                 <div className="w-3/4 px-4">
-                    <div className="text-blue text-xs">{DateTime.fromISO(e.time, {zone: 'utc'}).toFormat("dd LLL - h:mm a")}</div>
+                    <div className="text-blue-400 text-xs">{DateTime.fromISO(e.time, {zone: 'utc'}).toFormat("dd LLL - h:mm a")}</div>
                     <div className="text-lg mt-1 text-black">{e.title}</div>
                 </div>
             </a>));
@@ -50,7 +50,6 @@ function TabProfile(props) {
 
     useEffect(() => {
         setContentSelected(content);
-        setIsLoading(false);
     }, [content]);
 
     return (
