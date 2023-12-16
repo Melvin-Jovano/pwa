@@ -3,44 +3,69 @@ import AppContext from "../../common/context/AppContext";
 import EventCard from "../../component/EventCard";
 import HomeImg from "../../assets/img/home.png";
 import { exploreEvents } from "../../common/api/event";
+import Loader from "../../component/Loader";
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const { setShowBottomNavbar, setShowLoading } = useContext(AppContext);
-  const [location, setLocation] = useState('My Location');
+  const { setShowBottomNavbar } = useContext(AppContext);
   const [exploreEvent, setExploreEvent] = useState([]);
+  const [exploreLoading, setExploreLoading] = useState(true);
+  const [nearbyEvent, setNearbyEvent] = useState([]);
+  const [nearbyLoading, setNearbyLoading] = useState(true);
   const keyword = useRef();
+  const coor = useRef();
+  const navigate = useNavigate();
 
   async function getEvents() {
-    setShowLoading(true);
+    setExploreLoading(true);
     const events = await exploreEvents({
       title: '',
       exceptBy: localStorage.getItem('id')
     });
     setExploreEvent(events.data);
-    setShowLoading(false);
+    setExploreLoading(false);
+  }
+
+  async function getNearbyEvent() {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      setNearbyLoading(true);
+      coor.current = `${position.coords.longitude},${position.coords.latitude},10000`;
+      const events = await exploreEvents({
+        location: coor.current,
+        exceptBy: localStorage.getItem('id')
+      });
+      setNearbyEvent(events.data);
+      setNearbyLoading(false);
+    });
+  }
+
+  function search(e) {
+    e.preventDefault();
+    navigate('/event/list', {state: {exceptBy: localStorage.getItem('id'), title: keyword.current.value}});
   }
 
   useEffect(() => {
     setShowBottomNavbar(true);
     getEvents();
+    getNearbyEvent();
     return function cleanup() {
       setShowBottomNavbar(false);
     };
   }, []);
 
   return (
-    <div className="p-3 px-6">
+    <div className="p-3 px-6 mb-14">
       <div className="flex mt-3">
         <div className="text-slate-400 flex-grow text-sm">Location</div>
         <div><i className="fas fa-bell"></i></div>
       </div>
 
       <div className="font-semibold my-3">
-        <i className="fas fa-location-dot"></i>&emsp;{location}
+        <i className="fas fa-location-dot"></i>&emsp;My Location
       </div>
 
       <div>
-        <form className="flex items-center">   
+        <form className="flex items-center" onSubmit={search}>   
           <label htmlFor="simple-search" className="sr-only">Search</label>
           <div className="relative w-full">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -57,13 +82,15 @@ function HomePage() {
       <div className="my-4">
         <div className="flex items-center">
           <div className="flex-grow">Explore Events</div>
-          <div className="text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></div>
+          <button onClick={() => navigate('/event/list', {state: {title: '', exceptBy: localStorage.getItem('id')}})} className="block text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></button>
         </div>
 
         <div className="flex w-full overflow-auto py-4">
 
           {
-            exploreEvent.map((e, i) => <EventCard key={i} data={e} />)
+            exploreLoading 
+              ? <div className="w-full"><Loader hideLabel={true} /></div>
+              : exploreEvent.map((e, i) => <EventCard key={i} data={e} />)
           }
 
         </div>
@@ -85,6 +112,27 @@ function HomePage() {
             <img src={HomeImg} className="w-full h-full object-cover rounded-r-lg shadow" alt="" />
           </div>
           
+        </div>
+        
+        <div className="my-4">
+          {
+            nearbyLoading
+              ? <Loader />
+              : nearbyEvent.length > 0 
+                ? <>
+                  <div className="flex items-center">
+                    <div className="flex-grow">Nearby You</div>
+                    <button onClick={() => navigate('/event/list', {state: {location: coor.current, exceptBy: localStorage.getItem('id')}})} className="block text-slate-400 text-sm">See all <i className="fa-solid fa-arrow-right"></i></button>
+                  </div>
+
+                  <div className="flex w-full overflow-auto py-4">
+                    {
+                      nearbyEvent.map((e, i) => <EventCard key={i} data={e} />)
+                    }
+                  </div>
+                </>
+                : <center className="my-4">No Event Found</center>
+          }
         </div>
       </div>
     </div>

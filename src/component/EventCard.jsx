@@ -10,7 +10,11 @@ function EventCard(props) {
 
               <div className="absolute top-3 right-3">
                 <div className="bg-green-500 rounded-lg py-2 px-3 shadow">
-                  <i className="fas fa-bookmark text-white"></i>
+                  {
+                    data.savedBy?.includes(localStorage.getItem('id')) 
+                      ? <i className="fas fa-bookmark text-white"></i>
+                      : <i className="fa-regular fa-bookmark text-white"></i>
+                  }
                 </div>
               </div>
 

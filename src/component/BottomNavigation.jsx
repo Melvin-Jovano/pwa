@@ -1,8 +1,14 @@
 import { useContext } from "react";
 import AppContext from "../common/context/AppContext";
+import { useNavigate } from 'react-router-dom';
 
 function BottomNavigation() {
     const { showBottomNavbar } = useContext(AppContext);
+    const navigate = useNavigate();
+
+    function bookmarks() {
+        navigate('/event/list', {state: {savedBy: localStorage.getItem('id')}});
+    }
 
     return (
         <>  
@@ -16,9 +22,9 @@ function BottomNavigation() {
                         <a href="/event/create/first" className="inline-flex flex-col items-center justify-center px-5 group">
                             <i className="fa-solid text-white text-lg fa-calendar-days"></i>
                         </a>
-                        <a href="" className="inline-flex flex-col items-center justify-center px-5 group">
+                        <button onClick={bookmarks} className="inline-flex flex-col items-center justify-center px-5 group">
                             <i className="fa-solid text-lg fa-bookmark text-white"></i>
-                        </a>
+                        </button>
                         <a href="/profile" className="inline-flex flex-col items-center justify-center px-5 rounded-e-full group">
                             <i className="fa-solid fa-user text-white text-lg"></i>
                         </a>

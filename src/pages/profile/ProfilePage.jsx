@@ -5,10 +5,12 @@ import DropdownMenu from "../../component/DropDown";
 import { getProfile } from "../../common/api/profile";
 import TabProfile from "../../component/TabProfile";
 import { useNavigate } from 'react-router-dom';
+import Loader from "../../component/Loader";
 
 function ProfilePage() {
   const { setShowLoading, setShowNavbar, setNavbarButton } = useContext(AppContext);
   const [content, setContent] = useState('');
+  const [isFetchingUser, setIsFetcingUser] = useState(true);
   const [user, setUser] = useState({});
   const options = ['Edit profile', 'Logout'];
   const navigate = useNavigate();
@@ -22,11 +24,15 @@ function ProfilePage() {
   };
   
   async function getUser() {
-    setShowLoading(true);
-    const profile = await getProfile(localStorage.getItem('id'));
-    setUser(profile.data);
-    setContent(profile.data.about);
-    setShowLoading(false);
+    try {
+      setIsFetcingUser(true);
+      const profile = await getProfile(localStorage.getItem('id'));
+      setUser(profile.data);
+      setContent(profile.data.about);
+      setIsFetcingUser(false);
+    } catch (error) {
+      setIsFetcingUser(false);
+    }
   }
 
   useEffect(() => {
@@ -57,7 +63,11 @@ function ProfilePage() {
   return (
     <div className="p-3">
       <center>
-        <img src={user.img} alt="" className="h-44 w-44 rounded-full" />
+        {
+          isFetchingUser 
+            ? <Loader hideLabel={true} />
+            : <img src={user.img} alt="" className="h-44 w-44 rounded-full" />
+        }
         <p className="mt-5 text-lg font-semibold">{user.name}</p>
         <div className="mt-5 text-md flex">
           <div className="flex-grow"></div>

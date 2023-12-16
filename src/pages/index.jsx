@@ -8,7 +8,10 @@ import CreateEventPageFirst from "./event/CreateEventPageFirst";
 import CreateEventPageSecond from "./event/CreateEventPageSecond";
 import EditProfilePage from "./profile/EditProfilePage";
 import ProfileDetailPage from "./profile/ProfileDetailPage";
+import EventList from "./event/EventList";
+
 export {
+    EventList,
     ProfileDetailPage,
     EditProfilePage,
     CreateEventPageFirst,
