@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { eventDetail, joinEvent, saveEvent } from "../../common/api/event";
 import { DateTime } from "luxon";
 import Skeleton from 'react-loading-skeleton';
+import EventCard from "../../component/EventCard";
 
 function EventDetailPage() {
   const {id} = useParams();
@@ -165,9 +166,7 @@ function EventDetailPage() {
                     <div className="mt-2">
                       {
                         otherEvent.map((o, i) => {
-                          return <div key={i}>
-
-                          </div>
+                          return <EventCard data={o} key={i} />
                         })
                       }
                     </div>
