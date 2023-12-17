@@ -38,7 +38,7 @@ function DropdownMenu ({ options, onSelect }) {
             <ul className="absolute divide-y divide-gray-100 rounded-lg shadow bg-gray-700 py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 {options.map((option) => (
                 <li key={option}>
-                    <a key={option} onClick={() => handleSelect(option)} href="#" className="block px-4 py-1 hover:bg-gray-100">{option}</a>
+                    <a key={option} onClick={() => handleSelect(option)} href="#" className="block px-4 py-1 hover:bg-gray-100 text-white">{option}</a>
                 </li>
             ))}
             </ul>
